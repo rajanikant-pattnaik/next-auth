@@ -2,21 +2,36 @@
 
 import Link from 'next/link';
 import React from 'react'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 // import {axios} from axios;
 
 const LoginPage = () => {
+  const [loading,setLoading]=React.useState(false);
+  const router=useRouter();
   const [user,setUser]=React.useState({
     email:"",
     password:"",
   })
 
   const onLoginUp=async ()=>{
-
+    try {
+      setLoading(true);
+     const res=await axios.post("/api/users/login",user)
+     console.log("signup success",res.data);
+     router.push('/')
+    } catch (error:any) {
+      toast.error(error);
+      alert(error)
+      console.log("signup falied",error);
+    }finally{
+      setLoading(false);
+    }
   }
   return (
     <div className='flex flex-col items-center justify-center min-h-screen py-2'>
-      <h1>signUp</h1>
+      <h1>{loading?"processing":"Login"}</h1>
       <hr />
       
       <label htmlFor='email'>email</label>
