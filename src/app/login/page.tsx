@@ -20,7 +20,8 @@ const LoginPage = () => {
       setLoading(true);
      const res=await axios.post("/api/users/login",user)
      console.log("signup success",res.data);
-     router.push('/')
+     alert("login succesfull")
+     router.push('/profile')
     } catch (error:any) {
       toast.error(error);
       alert(error)
